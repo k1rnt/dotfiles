@@ -28,6 +28,10 @@ defaults write com.apple.finder _FXShowPosixPathInTitle -bool true
 defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true
 defaults write com.apple.desktopservices DSDontWriteUSBStores -bool true
 
+## window
+defaults write -g NSAutomaticWindowAnimationsEnabled -bool false
+defaults write -g NSWindowResizeTime 0.1
+
 ## other
 defaults write -g NSAutomaticSpellingCorrectionEnabled -bool false
 
