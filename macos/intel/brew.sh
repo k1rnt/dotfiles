@@ -25,14 +25,17 @@ formulas=(
     fish
     gh
     git
+    go
     htop
     mas
     nb
     nkf
     neofetch
+    nvm
     pandoc
     procs
     pstree
+    rustup
     sd
     thefuck
     tldr
