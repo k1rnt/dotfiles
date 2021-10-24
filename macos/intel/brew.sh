@@ -37,6 +37,7 @@ formulas=(
     pstree
     rustup
     sd
+    tfenv
     thefuck
     tldr
     tmux
