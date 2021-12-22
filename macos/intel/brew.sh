@@ -31,7 +31,7 @@ formulas=(
     nb
     nkf
     neofetch
-    nvm
+    n
     pandoc
     procs
     pstree
