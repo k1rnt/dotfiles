@@ -17,6 +17,7 @@ brew update && brew upgrade
 
 ## install formula
 formulas=(
+    alt-tab
     bat
     ctop
     exa
@@ -28,10 +29,10 @@ formulas=(
     go
     htop
     mas
+    n
     nb
     nkf
     neofetch
-    n
     pandoc
     procs
     pstree
@@ -42,7 +43,6 @@ formulas=(
     tldr
     tmux
     tree
-    alt-tab
 )
 
 for formula in "${formulas[@]}"; do
