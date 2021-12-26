@@ -42,6 +42,7 @@ formulas=(
     tldr
     tmux
     tree
+    alt-tab
 )
 
 for formula in "${formulas[@]}"; do
