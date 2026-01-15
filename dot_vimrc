@@ -1,0 +1,159 @@
+" =========================
+" 基本
+" =========================
+set nocompatible
+filetype plugin indent on
+syntax on
+
+set encoding=utf-8
+set hidden
+set number
+set relativenumber
+set ruler
+set showcmd
+set cursorline
+set signcolumn=yes
+set updatetime=200
+set timeoutlen=400
+
+set tabstop=2
+set shiftwidth=2
+set softtabstop=2
+set expandtab
+set smartindent
+set autoindent
+
+set ignorecase
+set smartcase
+set incsearch
+set hlsearch
+
+set clipboard=unnamedplus
+set mouse=a
+
+set splitright
+set splitbelow
+
+" True color (iTerm2等)
+if has('termguicolors')
+  set termguicolors
+endif
+
+" leader
+let mapleader=" "
+
+" =========================
+" vim-plug
+" =========================
+call plug#begin('~/.vim/plugged')
+
+" 検索/移動
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-commentary'
+
+" Git
+Plug 'tpope/vim-fugitive'
+
+" 見た目
+Plug 'itchyny/lightline.vim'
+Plug 'Yggdroot/indentLine'
+
+" LSP/補完
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
+" 言語（シンタックスハイライト）
+Plug 'sheerun/vim-polyglot'
+
+call plug#end()
+
+" =========================
+" lightline
+" =========================
+let g:lightline = {
+  \ 'active': {
+  \   'left': [ [ 'mode', 'paste' ], [ 'readonly', 'filename', 'modified' ] ],
+  \   'right': [ [ 'lineinfo' ], [ 'percent' ], [ 'fileformat', 'filetype' ] ]
+  \ },
+  \ }
+
+" =========================
+" fzf.vim
+" =========================
+let g:fzf_layout = { 'down': '40%' }
+nnoremap <silent> <leader>f :Files<CR>
+nnoremap <silent> <leader>g :GFiles<CR>
+nnoremap <silent> <leader>r :Rg<CR>
+nnoremap <silent> <leader>b :Buffers<CR>
+
+" ripgrep を使う
+if executable('rg')
+  let $FZF_DEFAULT_COMMAND = 'rg --files --hidden --follow -g "!**/.git/*"'
+endif
+
+" =========================
+" Git (fugitive)
+" =========================
+nnoremap <silent> <leader>gs :G<CR>
+nnoremap <silent> <leader>gd :Gdiffsplit<CR>
+
+" =========================
+" Coc (LSP/補完)
+" =========================
+" Tabで補完選択
+inoremap <silent><expr> <TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
+inoremap <silent><expr> <S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+" 補完確定
+inoremap <silent><expr> <CR> pumvisible() ? coc#_select_confirm() : "\<CR>"
+
+" LSP操作
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+nmap <silent> K  :call CocActionAsync('doHover')<CR>
+nmap <silent> <leader>rn <Plug>(coc-rename)
+nmap <silent> <leader>ca <Plug>(coc-codeaction)
+
+" diagnostics
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
+
+" format
+nmap <silent> <leader>fm :call CocAction('format')<CR>
+
+" Coc extensions（必要最低限）
+let g:coc_global_extensions = [
+  \ 'coc-json',
+  \ 'coc-yaml',
+  \ 'coc-snippets',
+  \ 'coc-tsserver',
+  \ 'coc-pyright',
+  \ 'coc-go',
+  \ 'coc-rust-analyzer',
+  \ 'coc-clangd',
+  \ 'coc-html',
+  \ 'coc-css',
+  \ 'coc-prettier',
+  \ 'coc-phpls'
+  \ ]
+
+" =========================
+" 便利キー
+" =========================
+nnoremap <silent> <leader>h :nohlsearch<CR>
+
+" ウィンドウ移動
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
+
+" インデントライン
+let g:indentLine_enabled = 1
+let g:indentLine_char = '│'
+

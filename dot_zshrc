@@ -1,0 +1,69 @@
+# ---- PATH ----
+typeset -U PATH path
+export PATH="/opt/homebrew/bin:$PATH"
+export PATH="$HOME/.local/bin:$PATH"
+export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
+
+# ---- rootでterminfoを使えるようにする ----
+if [[ $EUID -eq 0 ]]; then
+  export TERM=xterm-256color
+fi
+
+# ---- completion (fish-like) ----
+autoload -Uz compinit
+compinit -d "${ZDOTDIR:-$HOME}/.zcompdump-${ZSH_VERSION}"
+
+zstyle ':completion:*' menu select                       # 矢印キーで選択
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'     # 大文字小文字を区別しない
+zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}" # 色付き補完
+zstyle ':completion:*' group-name ''                     # グループ化
+zstyle ':completion:*:descriptions' format '%F{yellow}-- %d --%f'
+
+# ---- history (fish-like) ----
+setopt HIST_IGNORE_DUPS
+setopt HIST_IGNORE_SPACE      # スペース始まりは履歴に残さない
+setopt SHARE_HISTORY
+setopt EXTENDED_HISTORY       # タイムスタンプ付き
+HISTSIZE=50000
+SAVEHIST=50000
+HISTFILE=~/.zsh_history
+
+# ---- keybindings (fish-like) ----
+bindkey -e
+bindkey '^[[1;3C' forward-word          # Alt+→ で単語移動
+bindkey '^[[1;3D' backward-word         # Alt+← で単語移動
+
+# fish-like履歴検索（入力中に↑↓で前方一致検索）
+autoload -Uz up-line-or-beginning-search down-line-or-beginning-search
+zle -N up-line-or-beginning-search
+zle -N down-line-or-beginning-search
+
+# キーバインド（ハードコード - terminfoがrootで使えないため）
+bindkey '^[[3~'  delete-char             # Delete
+bindkey '^[[H'   beginning-of-line       # Home
+bindkey '^[[F'   end-of-line             # End
+bindkey '^[[A'   up-line-or-beginning-search    # ↑
+bindkey '^[[B'   down-line-or-beginning-search  # ↓
+
+# ---- zsh-autosuggestions（rootでも読み込む） ----
+ZSH_AUTOSUGGEST_STRATEGY=(history completion)
+if [[ -f /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh ]]; then
+  source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+fi
+
+# ---- brew依存の設定（rootではスキップ） ----
+if [[ $EUID -ne 0 ]] && command -v brew &>/dev/null; then
+  BREW_PREFIX="$(brew --prefix)"
+
+  # fish-like syntax highlighting（最後の方で読み込む）
+  [[ -f "$BREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ]] && \
+    source "$BREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+
+  # fzf
+  [[ -f "$BREW_PREFIX/opt/fzf/shell/key-bindings.zsh" ]] && source "$BREW_PREFIX/opt/fzf/shell/key-bindings.zsh"
+  [[ -f "$BREW_PREFIX/opt/fzf/shell/completion.zsh" ]] && source "$BREW_PREFIX/opt/fzf/shell/completion.zsh"
+fi
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+eval "$(starship init zsh)"
+[[ $EUID -ne 0 ]] && eval "$(mise activate zsh)"
