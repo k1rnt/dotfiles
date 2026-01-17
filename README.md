@@ -76,6 +76,51 @@ git add -A && git commit -m "Update Brewfile" && git push
 exit
 ```
 
+## .zshrc の編集について
+
+`.zshrc` はテンプレート（`dot_zshrc.tmpl`）で管理されており、macOS / Linux で異なる設定が自動生成されます。
+
+### 編集方法
+
+```bash
+# 必ず chezmoi edit を使う
+chezmoi edit ~/.zshrc
+```
+
+### やってはいけないこと
+
+```bash
+# NG: 直接編集して chezmoi add するとテンプレートが消える
+vim ~/.zshrc
+chezmoi add ~/.zshrc  # テンプレートが上書きされる！
+```
+
+### テンプレートの構造
+
+```zsh
+# 共通部分（両OS）
+alias g='git'
+
+# OS分岐
+{{- if eq .chezmoi.os "darwin" }}
+# macOS専用の設定
+{{- else if eq .chezmoi.os "linux" }}
+# Linux専用の設定
+{{- end }}
+```
+
+### 編集時のポイント
+
+| 変更内容 | 編集箇所 |
+|----------|----------|
+| 共通の設定を追加 | OS分岐の外側に追記 |
+| macOS専用の設定 | `{{- if eq .chezmoi.os "darwin" }}` ブロック内 |
+| Linux専用の設定 | `{{- else if eq .chezmoi.os "linux" }}` ブロック内 |
+
+### 誤操作防止
+
+`.zshrc` には `chezmoi add` をラップする関数が含まれており、テンプレートファイルに対して `chezmoi add` を実行すると警告が出ます。
+
 ## よく使うコマンド
 
 | コマンド | 説明 |
