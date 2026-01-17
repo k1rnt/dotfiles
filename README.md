@@ -39,12 +39,21 @@ sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply k1rnt
 ### ファイルを編集
 
 ```bash
-# 方法1: 直接編集 → chezmoi に反映
-vim ~/.zshrc
-chezmoi add ~/.zshrc
-
-# 方法2: chezmoi 経由で編集（推奨）
+# chezmoi 経由で編集（推奨）
 chezmoi edit ~/.zshrc
+```
+
+> **注意**: `.zshrc` はテンプレート（OS分岐あり）で管理されています。
+> `chezmoi add ~/.zshrc` を実行するとテンプレートが上書きされるため、
+> 必ず `chezmoi edit` を使用してください。
+> （誤操作防止のラッパー関数が警告を出します）
+
+### テンプレートでないファイルを編集
+
+```bash
+# 直接編集 → chezmoi に反映
+vim ~/.vimrc
+chezmoi add ~/.vimrc
 ```
 
 ### 変更を GitHub に保存
