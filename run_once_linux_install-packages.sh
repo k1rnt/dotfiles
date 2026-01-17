@@ -1,6 +1,11 @@
 #!/bin/bash
 set -e
 
+# Linuxの場合のみ実行
+if [[ "$(uname)" != "Linux" ]]; then
+  exit 0
+fi
+
 echo "=== dotfiles setup (Linux) ==="
 
 # ---- apt packages ----
