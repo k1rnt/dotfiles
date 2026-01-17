@@ -28,6 +28,9 @@ HISTSIZE=50000
 SAVEHIST=50000
 HISTFILE=~/.zsh_history
 
+# ---- aliases ----
+alias g='git'
+
 # ---- keybindings (fish-like) ----
 bindkey -e
 bindkey '^[[1;3C' forward-word          # Alt+→ で単語移動
