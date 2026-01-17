@@ -1,0 +1,72 @@
+# dotfiles
+
+macOS 用の dotfiles。[chezmoi](https://www.chezmoi.io/) で管理。
+
+## セットアップ（新しいマシン）
+
+```bash
+# chezmoi をインストールして適用（全自動）
+sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply k1rnt
+```
+
+自動でインストールされるもの:
+- Homebrew + Brewfile のパッケージ
+- Rustup + rust-analyzer
+- mise runtimes (go, java, node, php, python, ruby)
+- Go tools (gopls, dlv, goimports, golangci-lint)
+- Cargo tools (filetree, keifu)
+
+## 含まれるファイル
+
+| ファイル | 説明 |
+|----------|------|
+| `.zshrc` | fish-like な zsh 設定 (autosuggestions, syntax-highlighting, fzf) |
+| `.vimrc` | vim 設定 (coc.nvim, vim-polyglot) |
+| `.config/ghostty/config` | Ghostty ターミナル設定 |
+| `.config/starship.toml` | Starship プロンプト設定 |
+| `.config/mise/config.toml` | mise ランタイム設定 |
+| `Brewfile` | Homebrew パッケージ一覧 |
+
+## 日常の操作
+
+### ファイルを編集
+
+```bash
+# 方法1: 直接編集 → chezmoi に反映
+vim ~/.zshrc
+chezmoi add ~/.zshrc
+
+# 方法2: chezmoi 経由で編集（推奨）
+chezmoi edit ~/.zshrc
+```
+
+### 変更を GitHub に保存
+
+```bash
+chezmoi cd
+git add -A && git commit -m "メッセージ" && git push
+exit
+```
+
+### Brewfile を更新
+
+```bash
+# 現在インストールされているパッケージで上書き
+brew bundle dump --file=~/.local/share/chezmoi/Brewfile --force
+
+# commit & push
+chezmoi cd
+git add -A && git commit -m "Update Brewfile" && git push
+exit
+```
+
+## よく使うコマンド
+
+| コマンド | 説明 |
+|----------|------|
+| `chezmoi edit ~/.zshrc` | ファイルを編集 |
+| `chezmoi add ~/.zshrc` | 変更を取り込む |
+| `chezmoi diff` | 差分を確認 |
+| `chezmoi apply` | 変更を適用 |
+| `chezmoi cd` | ソースディレクトリに移動 |
+| `chezmoi update` | リモートから pull して適用 |
