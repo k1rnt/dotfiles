@@ -1,7 +1,7 @@
 [tools]
-go = "latest"
-java = "latest"
-node = "latest"
-php = "latest"
-python = "latest"
-ruby = "latest"
+go = "latest"       # 後方互換性が高い
+node = "lts"        # LTS版を使用
+python = "latest"   # 3.x最新で問題なし
+ruby = "latest"     # 後方互換性あり
+php = "8.5"         # メジャー.マイナー固定（現在の安定版）
+java = "21"         # LTS（長期サポート）
