@@ -1,6 +1,6 @@
 # dotfiles
 
-macOS 用の dotfiles。[chezmoi](https://www.chezmoi.io/) で管理。
+macOS / Linux 用の dotfiles。[chezmoi](https://www.chezmoi.io/) で管理。
 
 ## セットアップ（新しいマシン）
 
@@ -9,12 +9,19 @@ macOS 用の dotfiles。[chezmoi](https://www.chezmoi.io/) で管理。
 sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply k1rnt
 ```
 
-自動でインストールされるもの:
+### macOS で自動インストールされるもの
 - Homebrew + Brewfile のパッケージ
 - Rustup + rust-analyzer
 - mise runtimes (go, java, node, php, python, ruby)
 - Go tools (gopls, dlv, goimports, golangci-lint)
 - Cargo tools (filetree, keifu)
+
+### Linux (Ubuntu) で自動インストールされるもの
+- apt パッケージ (zsh, fzf, vim, ripgrep, etc.)
+- Starship
+- Rustup + rust-analyzer
+- mise runtimes
+- Go tools / Cargo tools
 
 ## 含まれるファイル
 
@@ -25,7 +32,7 @@ sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply k1rnt
 | `.config/ghostty/config` | Ghostty ターミナル設定 |
 | `.config/starship.toml` | Starship プロンプト設定 |
 | `.config/mise/config.toml` | mise ランタイム設定 |
-| `Brewfile` | Homebrew パッケージ一覧 |
+| `Brewfile` | Homebrew パッケージ一覧 (macOS) |
 
 ## 日常の操作
 
@@ -48,7 +55,7 @@ git add -A && git commit -m "メッセージ" && git push
 exit
 ```
 
-### Brewfile を更新
+### Brewfile を更新 (macOS)
 
 ```bash
 # 現在インストールされているパッケージで上書き
