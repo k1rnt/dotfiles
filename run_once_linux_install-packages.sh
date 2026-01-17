@@ -23,7 +23,25 @@ sudo apt install -y \
   fd-find \
   bat \
   jq \
-  htop
+  htop \
+  # PHP build dependencies
+  build-essential \
+  autoconf \
+  libtool \
+  bison \
+  re2c \
+  libssl-dev \
+  libcurl4-openssl-dev \
+  libxml2-dev \
+  libreadline-dev \
+  libzip-dev \
+  libpng-dev \
+  libjpeg-dev \
+  libfreetype6-dev \
+  libonig-dev \
+  libsqlite3-dev \
+  pkg-config \
+  zlib1g-dev
 
 # ---- Starship ----
 if ! command -v starship &>/dev/null; then
