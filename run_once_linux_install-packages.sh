@@ -1,23 +1,30 @@
 #!/bin/bash
 set -e
 
-# macOSの場合のみ実行
-if [[ "$(uname)" != "Darwin" ]]; then
-  echo "Skipping setup (not macOS)"
-  exit 0
+echo "=== dotfiles setup (Linux) ==="
+
+# ---- apt packages ----
+echo "Installing apt packages..."
+sudo apt update
+sudo apt install -y \
+  zsh \
+  zsh-autosuggestions \
+  zsh-syntax-highlighting \
+  fzf \
+  vim \
+  git \
+  curl \
+  ripgrep \
+  fd-find \
+  bat \
+  jq \
+  htop
+
+# ---- Starship ----
+if ! command -v starship &>/dev/null; then
+  echo "Installing Starship..."
+  curl -sS https://starship.rs/install.sh | sh -s -- -y
 fi
-
-echo "=== dotfiles setup ==="
-
-# ---- Homebrew ----
-if ! command -v brew &>/dev/null; then
-  echo "Installing Homebrew..."
-  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-  eval "$(/opt/homebrew/bin/brew shellenv)"
-fi
-
-echo "Installing packages from Brewfile..."
-brew bundle --file="$(chezmoi source-path)/Brewfile"
 
 # ---- Rustup ----
 if ! command -v rustup &>/dev/null; then
@@ -30,17 +37,20 @@ echo "Installing Rust components..."
 rustup component add rust-analyzer
 
 # ---- Mise ----
+if ! command -v mise &>/dev/null; then
+  echo "Installing Mise..."
+  curl https://mise.run | sh
+  export PATH="$HOME/.local/bin:$PATH"
+fi
+
 if command -v mise &>/dev/null; then
   echo "Setting up mise..."
 
-  # PHP plugin (asdf-php for building from source)
+  # PHP plugin
   mise plugins install php https://github.com/asdf-community/asdf-php.git || true
 
-  # PHP build options (required for macOS)
-  export PHP_CONFIGURE_OPTIONS="--with-openssl=$(brew --prefix openssl@3) --with-iconv=$(brew --prefix libiconv)"
-
   mise trust --all
-  echo "Installing mise runtimes (PHP may take a while to compile)..."
+  echo "Installing mise runtimes..."
   mise install
 fi
 
@@ -58,6 +68,12 @@ if command -v cargo &>/dev/null; then
   echo "Installing Cargo tools..."
   cargo install filetree || true
   cargo install keifu || true
+fi
+
+# ---- Set zsh as default shell ----
+if [[ "$SHELL" != *"zsh"* ]]; then
+  echo "Setting zsh as default shell..."
+  chsh -s $(which zsh)
 fi
 
 echo "=== Setup complete ==="
