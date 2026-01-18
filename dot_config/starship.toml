@@ -5,7 +5,7 @@
 add_newline = true
 
 format = """
-[╭{ $username$hostname}](bold green) $directory$git_branch$git_status$battery$time$line_break$character"""
+[╭{ $username$hostname}](bold green) $directory$git_branch$git_status$python$battery$time$line_break$character"""
 
 [username]
 show_always = true
@@ -51,6 +51,10 @@ diverged = "[⇕$ahead_count⇣$behind_count](fg:yellow)"
 disabled = false
 format = '🕙 [$time]($style) '
 time_format = '%m/%d %R'
+
+[python]
+format = '[(\($virtualenv\) )]($style)'
+style = 'yellow'
 
 [aws]
 disabled = true
