@@ -5,7 +5,7 @@
 add_newline = true
 
 format = """
-[╭{ $username$hostname}](bold green) $directory$git_branch$git_status$python$battery$time$line_break$character"""
+[╭{ $python$username$hostname}](bold green) $directory$git_branch$git_status$battery$time$line_break$character"""
 
 [username]
 show_always = true
@@ -53,8 +53,7 @@ format = '🕙 [$time]($style) '
 time_format = '%m/%d %R'
 
 [python]
-format = '[(\($virtualenv\) )]($style)'
-style = 'yellow'
+format = '[(\($virtualenv\) )](bold green)'
 
 [aws]
 disabled = true
