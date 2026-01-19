@@ -37,7 +37,11 @@ HISTFILE=~/.zsh_history
 
 # ---- aliases ----
 alias g='git'
+{{- if eq .chezmoi.os "darwin" }}
 alias jsc='jbl-soundbar-cli'
+{{- else if eq .chezmoi.os "linux" }}
+# Linux専用の設定
+{{- end }}
 
 # chezmoi add をラップ（テンプレートファイルの上書き防止）
 chezmoi() {
