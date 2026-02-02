@@ -42,7 +42,8 @@ sudo apt install -y \
   pkg-config \
   zlib1g-dev \
   libgd-dev \
-  libyaml-dev
+  libyaml-dev \
+  libicu-dev
 
 # ---- Starship ----
 if ! command -v starship &>/dev/null; then
