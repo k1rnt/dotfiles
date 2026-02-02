@@ -40,7 +40,9 @@ sudo apt install -y \
   libonig-dev \
   libsqlite3-dev \
   pkg-config \
-  zlib1g-dev
+  zlib1g-dev \
+  libgd-dev \
+  libyaml-dev
 
 # ---- Starship ----
 if ! command -v starship &>/dev/null; then
