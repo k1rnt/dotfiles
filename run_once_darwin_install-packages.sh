@@ -1,6 +1,10 @@
 #!/bin/bash
 set -e
 
+if [[ "$(uname)" != "Darwin" ]]; then
+  exit 0
+fi
+
 echo "=== dotfiles setup (macOS) ==="
 
 # ---- Homebrew ----
