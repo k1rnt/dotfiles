@@ -24,7 +24,6 @@ sudo apt install -y \
   bat \
   jq \
   htop \
-  # PHP build dependencies
   build-essential \
   autoconf \
   libtool \
